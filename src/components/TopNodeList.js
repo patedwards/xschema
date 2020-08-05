@@ -35,6 +35,7 @@ function CreateNode(props) {
 export default function TopNodeList(props) {
   console.log("Top level ", props)
   const nodeSchema = props.xschema[props.topLevelNode.name]
+  console.log("Top level node schema ", nodeSchema)
   const { loading, error, data } = useQuery(nodeSchema.listQuery, {pollInterval: 50});
 
   if (loading) return 'Loading...';

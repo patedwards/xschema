@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 export default function NodeCard(props) {
   console.log("Node card", props)
   const classes = useStyles();
-  const nodeName = props.nodeName; // TODO: this is part of xschema mapping
+  const nodeName = props.nodeName; 
   const nodeSchema = props.xschema[nodeName];
  
   const [deleteMutate] = useMutation(nodeSchema.deleteMutation);
