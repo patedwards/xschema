@@ -11,6 +11,7 @@ import { createAuthLink } from 'aws-appsync-auth-link';
 import { createHttpLink } from 'apollo-link-http';
 import { HttpLink } from 'apollo-link-http'
 import { XSchemaProvider } from './context/XSchema.context';
+import { typeDefs } from './localState/extendedTypes';
 
 const url = aws_config.aws_appsync_graphqlEndpoint
 const region = aws_config.aws_appsync_region
@@ -29,7 +30,7 @@ const link = ApolloLink.from([
 const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
-  connectToDevTools: true
+  connectToDevTools: true,
 });
 
 const WithProvider = () => (

@@ -1,8 +1,9 @@
 import React from 'react';
-import TopNodeList from './components/TopNodeList';
-import LowerNodeList from './components/LowerNodeList';
+import NodeList from './components/NodeList';
 import './App.css';
+import Grid from '@material-ui/core/Grid';
 import { XSchemaConsumer} from './context/XSchema.context';
+import NodeTree from './components/NodeTree';
 
 /*
 
@@ -61,87 +62,28 @@ Types of things:
 - List of connections --> drop down menu with link to other nodes AND add button
 */
 
-const graph = {
-  nodes : [
-    // "Blog", "Post", "Comment"
-    {
-      name: "Blog",
-      fields: [
-        {
-          name: "id",
-          required: true,
-          type: "ID"
-        },
-        {
-          name: "name",
-          required: true,
-          type: "String"
-        },
-        {
-          name: "posts",
-          required: false,
-          type: ["Post"]
-        }
-      ] 
-    },
-    {
-      name: "Post",
-      fields: [
-        {
-          name: "id",
-          required: true,
-          type: "ID"
-        },
-        {
-          name: "title",
-          required: true,
-          type: "String"
-        },
-        {
-          name: "blogID",
-          required: true,
-          type: "ID"
-        },
-        {
-          name: "blog",
-          required: true,
-          type: "Blog"
-        },
-        {
-          name: "comments",
-          required: true,
-          type: ["Comment"]
-        }
-      ] 
-    }
-  ],
-  edges : [
-    {
-      "name": "byBlog",
-      "from": "Blog.posts",
-      "to": "Posts.blogID"
-    },
-    {
-      "name": "byPost",
-      "from": "Post.comments",
-      "to": "Comment.postID"
-    }
-  ]
-}
-
 
 function App() {
   return (
-    <div>
-      <XSchemaConsumer>
-          {({topLevelNode, lowLevelNode, xschema}) => 
-            <div>
-              <TopNodeList topLevelNode={topLevelNode} xschema={xschema}/>
-              <LowerNodeList topLevelNode={topLevelNode} lowLevelNode={lowLevelNode} xschema={xschema}/>
-            </div>
+    <Grid container direction="row" spacing={3} justify="flex-start" >
+      <Grid item  style={{width:`20%`}}>
+        <XSchemaConsumer>  
+        {({ selectedNode }) => 
+          <NodeTree selectedNode={selectedNode}/>
+        }
+        </XSchemaConsumer>
+      </Grid>
+      <Grid item  style={{width:`80%`}}>
+        <XSchemaConsumer>  
+          {({ nodeListQuery, selectedNode }) => 
+            nodeListQuery != null ?
+              <NodeList selectedNode={selectedNode} nodeListQuery={nodeListQuery}  /> :
+              null
           }
-      </XSchemaConsumer>}
-    </div>
+          </XSchemaConsumer>
+      
+      </Grid>
+    </Grid>
   );
 }
 

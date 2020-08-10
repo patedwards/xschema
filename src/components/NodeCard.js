@@ -3,34 +3,80 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { useQuery, useMutation } from '@apollo/client';
-import ChildrenMenu from './ChildrenMenu';
+import { useMutation } from '@apollo/client';
+import { xschema } from '../graphql/xschema';
+import { XSchemaConsumer } from '../context/XSchema.context';
 
-const useStyles = makeStyles({
+
+const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 275,
+    maxWidth: 400,
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
   },
-  title: {
-    fontSize: 14,
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
   },
-  pos: {
-    marginBottom: 12,
+  card: {
+    border: 0,
+    borderRadius: 3,
+    maxWidth: 600,
   },
-});
+  regularCardHeader: {
+    background: "#fff",
+    color: "#fff",
+    subheader: {
+      color: "#fff",
+    },
+    height: 112
+  },
+  activeTopCardHeader: {
+    background: theme.palette.primary.main,
+    color: "#fff",
+    subheader: {
+      color: "#fff",
+    },
+    height: 112
+  },
+  activeLowCardHeader: {
+    background: theme.palette.secondary.main,
+    color: "#fff",
+    subheader: {
+      color: "#fff",
+    },
+    height: 112
+  },
+})
+);
+
+function ParentLink(props) {
+
+  console.log("Parenting", props)
+  function handleParentClick() {
+    props.setSelectedNode(props.parentNode.id, props.parentNode.name);
+    props.setNodeListQuery(props.field.gql.query(props.parentNode.id))
+  }
+
+  return (
+    <Button onClick={handleParentClick}>
+      Text
+    </Button>
+  )
+}
 
 export default function NodeCard(props) {
   console.log("Node card", props)
   const classes = useStyles();
   const nodeName = props.nodeName; 
-  const nodeSchema = props.xschema[nodeName];
+  const nodeSchema = xschema[nodeName];
+
  
   const [deleteMutate] = useMutation(nodeSchema.deleteMutation);
   const [updateMutate] = useMutation(nodeSchema.updateMutation);
@@ -42,6 +88,10 @@ export default function NodeCard(props) {
   function handleDelete() {
     console.log("Deleting ", state)
     deleteMutate({variables: {input: {id: state.id}}})
+  }
+
+  function handleHeaderClick() {
+    props.setSelectedNode(state.id, props.nodeName)
   }
 
   function handleUpdate(fieldName, value) {
@@ -65,13 +115,23 @@ export default function NodeCard(props) {
         }
     )
   }
+  
+
+
+  const cardStyle = props.selectedNode.id == state.id ? classes.activeTopCardHeader : classes.regularCardHeader
+  
+  const activeNode = {}
+  activeNode[nodeName] = state.id
 
   return (
-    <Card className={classes.root} onClick={() => props.setActiveNode(nodeName, state.id)}>
+    <Card className={classes.card} >
+      <CardHeader className={cardStyle} onClick={handleHeaderClick}>
+        {props.header}
+      </CardHeader>
       <CardContent>
         <Typography variant="h5" component="h2"> {props.header} </Typography>
         {
-          nodeSchema.fields.filter(field => field.component == "edit-field")
+          nodeSchema.fields.filter(field => field.gql == "String!")
             .map((field) => <TextField 
               id="outlined-basic" 
               label={field.name} 
@@ -81,16 +141,18 @@ export default function NodeCard(props) {
             />)
         }
         {
-          nodeSchema.fields.filter(field => field.component == "children-list")
-            .map((field) => <ChildrenMenu 
-                xschema={props.xschema} 
-                parentId={props.nodeContents.id} 
-                parentNodeName={props.nodeName}
-                nodeName={field.childrenNodeName} 
-              />
-            )
+          nodeSchema.fields.filter(field => field.gql.connectionType == "oneToOneConnection")
+            .map((field) => 
+              <XSchemaConsumer>{
+                ({setSelectedNode, parentNode, setNodeListQuery}) => <ParentLink 
+                  parentNode={parentNode} 
+                  setSelectedNode={setSelectedNode}
+                  setNodeListQuery={setNodeListQuery}
+                  field={field}
+                  id={state.id}
+                  />
+              }</XSchemaConsumer>)
         }
-        
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleDelete}>

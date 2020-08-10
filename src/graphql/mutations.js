@@ -14,6 +14,18 @@ export const createBlog = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      poles {
+        items {
+          id
+          title
+          blogID
+          content
           createdAt
           updatedAt
         }
@@ -37,6 +49,18 @@ export const updateBlog = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      poles {
+        items {
+          id
+          title
+          blogID
+          content
           createdAt
           updatedAt
         }
@@ -60,6 +84,18 @@ export const deleteBlog = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      poles {
+        items {
+          id
+          title
+          blogID
+          content
           createdAt
           updatedAt
         }
@@ -85,9 +121,13 @@ export const createPost = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
+      content
       comments {
         items {
           id
@@ -118,9 +158,13 @@ export const updatePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
+      content
       comments {
         items {
           id
@@ -151,9 +195,13 @@ export const deletePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
+      content
       comments {
         items {
           id
@@ -164,6 +212,87 @@ export const deletePost = /* GraphQL */ `
         }
         nextToken
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createPole = /* GraphQL */ `
+  mutation CreatePole(
+    $input: CreatePoleInput!
+    $condition: ModelPoleConditionInput
+  ) {
+    createPole(input: $input, condition: $condition) {
+      id
+      title
+      blogID
+      blog {
+        id
+        name
+        posts {
+          nextToken
+        }
+        poles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePole = /* GraphQL */ `
+  mutation UpdatePole(
+    $input: UpdatePoleInput!
+    $condition: ModelPoleConditionInput
+  ) {
+    updatePole(input: $input, condition: $condition) {
+      id
+      title
+      blogID
+      blog {
+        id
+        name
+        posts {
+          nextToken
+        }
+        poles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePole = /* GraphQL */ `
+  mutation DeletePole(
+    $input: DeletePoleInput!
+    $condition: ModelPoleConditionInput
+  ) {
+    deletePole(input: $input, condition: $condition) {
+      id
+      title
+      blogID
+      blog {
+        id
+        name
+        posts {
+          nextToken
+        }
+        poles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      content
       createdAt
       updatedAt
     }
@@ -187,6 +316,7 @@ export const createComment = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
@@ -217,6 +347,7 @@ export const updateComment = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
@@ -247,9 +378,97 @@ export const deleteComment = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createReply = /* GraphQL */ `
+  mutation CreateReply(
+    $input: CreateReplyInput!
+    $condition: ModelReplyConditionInput
+  ) {
+    createReply(input: $input, condition: $condition) {
+      id
+      commentID
+      comment {
+        id
+        postID
+        post {
+          id
+          title
+          blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateReply = /* GraphQL */ `
+  mutation UpdateReply(
+    $input: UpdateReplyInput!
+    $condition: ModelReplyConditionInput
+  ) {
+    updateReply(input: $input, condition: $condition) {
+      id
+      commentID
+      comment {
+        id
+        postID
+        post {
+          id
+          title
+          blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteReply = /* GraphQL */ `
+  mutation DeleteReply(
+    $input: DeleteReplyInput!
+    $condition: ModelReplyConditionInput
+  ) {
+    deleteReply(input: $input, condition: $condition) {
+      id
+      commentID
+      comment {
+        id
+        postID
+        post {
+          id
+          title
+          blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
         createdAt
         updatedAt
       }

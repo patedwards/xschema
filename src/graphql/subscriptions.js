@@ -11,6 +11,18 @@ export const onCreateBlog = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      poles {
+        items {
+          id
+          title
+          blogID
+          content
           createdAt
           updatedAt
         }
@@ -31,6 +43,18 @@ export const onUpdateBlog = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      poles {
+        items {
+          id
+          title
+          blogID
+          content
           createdAt
           updatedAt
         }
@@ -51,6 +75,18 @@ export const onDeleteBlog = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      poles {
+        items {
+          id
+          title
+          blogID
+          content
           createdAt
           updatedAt
         }
@@ -73,9 +109,13 @@ export const onCreatePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
+      content
       comments {
         items {
           id
@@ -103,9 +143,13 @@ export const onUpdatePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
+      content
       comments {
         items {
           id
@@ -133,9 +177,13 @@ export const onDeletePost = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
+      content
       comments {
         items {
           id
@@ -146,6 +194,78 @@ export const onDeletePost = /* GraphQL */ `
         }
         nextToken
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreatePole = /* GraphQL */ `
+  subscription OnCreatePole {
+    onCreatePole {
+      id
+      title
+      blogID
+      blog {
+        id
+        name
+        posts {
+          nextToken
+        }
+        poles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePole = /* GraphQL */ `
+  subscription OnUpdatePole {
+    onUpdatePole {
+      id
+      title
+      blogID
+      blog {
+        id
+        name
+        posts {
+          nextToken
+        }
+        poles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePole = /* GraphQL */ `
+  subscription OnDeletePole {
+    onDeletePole {
+      id
+      title
+      blogID
+      blog {
+        id
+        name
+        posts {
+          nextToken
+        }
+        poles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      content
       createdAt
       updatedAt
     }
@@ -166,6 +286,7 @@ export const onCreateComment = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
@@ -193,6 +314,7 @@ export const onUpdateComment = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
@@ -220,9 +342,88 @@ export const onDeleteComment = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateReply = /* GraphQL */ `
+  subscription OnCreateReply {
+    onCreateReply {
+      id
+      commentID
+      comment {
+        id
+        postID
+        post {
+          id
+          title
+          blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateReply = /* GraphQL */ `
+  subscription OnUpdateReply {
+    onUpdateReply {
+      id
+      commentID
+      comment {
+        id
+        postID
+        post {
+          id
+          title
+          blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteReply = /* GraphQL */ `
+  subscription OnDeleteReply {
+    onDeleteReply {
+      id
+      commentID
+      comment {
+        id
+        postID
+        post {
+          id
+          title
+          blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
         createdAt
         updatedAt
       }

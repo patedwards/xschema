@@ -2,6 +2,7 @@ type Blog @model {
   id: ID!
   name: String!
   posts: [Post] @connection(keyName: "byBlog", fields: ["id"])
+  poles: [Pole] @connection(keyName: "byBlog", fields: ["id"])
 }
 
 type Post @model @key(name: "byBlog", fields: ["blogID"]) {
@@ -9,12 +10,28 @@ type Post @model @key(name: "byBlog", fields: ["blogID"]) {
   title: String!
   blogID: ID!
   blog: Blog @connection(fields: ["blogID"])
+  content: String!
   comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Pole @model @key(name: "byBlog", fields: ["blogID"]) {
+  id: ID!
+  title: String!
+  blogID: ID!
+  blog: Blog @connection(fields: ["blogID"])
+  content: String!
 }
 
 type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
   id: ID!
   postID: ID!
   post: Post @connection(fields: ["postID"])
+  content: String!
+}
+
+type Reply @model @key(name: "byComment", fields: ["commentID", "content"]) {
+  id: ID!
+  commentID: ID!
+  comment: Comment @connection(fields: ["commentID"])
   content: String!
 }

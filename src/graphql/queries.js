@@ -11,6 +11,18 @@ export const getBlog = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      poles {
+        items {
+          id
+          title
+          blogID
+          content
           createdAt
           updatedAt
         }
@@ -34,6 +46,9 @@ export const listBlogs = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -53,9 +68,13 @@ export const getPost = /* GraphQL */ `
         posts {
           nextToken
         }
+        poles {
+          nextToken
+        }
         createdAt
         updatedAt
       }
+      content
       comments {
         items {
           id
@@ -88,9 +107,59 @@ export const listPosts = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPole = /* GraphQL */ `
+  query GetPole($id: ID!) {
+    getPole(id: $id) {
+      id
+      title
+      blogID
+      blog {
+        id
+        name
+        posts {
+          nextToken
+        }
+        poles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPoles = /* GraphQL */ `
+  query ListPoles(
+    $filter: ModelPoleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPoles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        blogID
+        blog {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        content
         createdAt
         updatedAt
       }
@@ -113,6 +182,7 @@ export const getComment = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        content
         comments {
           nextToken
         }
@@ -139,6 +209,58 @@ export const listComments = /* GraphQL */ `
           id
           title
           blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getReply = /* GraphQL */ `
+  query GetReply($id: ID!) {
+    getReply(id: $id) {
+      id
+      commentID
+      comment {
+        id
+        postID
+        post {
+          id
+          title
+          blogID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listReplys = /* GraphQL */ `
+  query ListReplys(
+    $filter: ModelReplyFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReplys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        commentID
+        comment {
+          id
+          postID
+          content
           createdAt
           updatedAt
         }
