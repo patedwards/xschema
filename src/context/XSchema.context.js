@@ -8,8 +8,8 @@ export class XSchemaProvider extends Component {
 
     this.state = {
       nodeListQuery: null,
-      selectedNode: {name: "Blog", id: null},
-      parentNode: null,
+      selectedNode: {name: null, id: null},
+      parentNode: {name: null, id: null},
     }
   }
 

@@ -31,8 +31,7 @@ function GenericNode(props) {
 }
 */
 
-function LabelNode(props) {
-    console.log("Label node", props)
+function InstanceNodeList(props) {
     /* start-auto-boiler-plate*/
     const { loading, error, data } = useQuery(...props.nodeListQuery)
     if (loading) return 'Loading...';
@@ -40,6 +39,21 @@ function LabelNode(props) {
     /* end-auto-boiler-plate*/  
 
     const instances = data["list" + props.nodeName + "s"].items
+    return (instances.map(instance => 
+        <XSchemaConsumer>{({ setSelectedNode, setNodeListQuery }) => 
+            <InstanceNode 
+            setNodeListQuery={setNodeListQuery}
+            setSelectedNode={setSelectedNode} 
+              {...instance}
+            queryForSiblings={props.nodeListQuery}
+            />
+        }
+        </XSchemaConsumer>
+    ))
+}
+
+function LabelNode(props) {
+    console.log("Label node", props)
 
     const handleSelect = () => {
         console.log("TREE A QUERY", props.nodeListQuery)
@@ -51,24 +65,15 @@ function LabelNode(props) {
 
     return (
      <TreeItem nodeId={props.nodeName} label={props.nodeName} onClick={handleSelect}>
-         {instances.map(instance => 
-            <XSchemaConsumer>{({ setSelectedNode, setNodeListQuery }) => 
-                <InstanceNode 
-                setNodeListQuery={setNodeListQuery}
-                setSelectedNode={setSelectedNode} 
-                  {...instance}
-                queryForSiblings={props.nodeListQuery}
-                />
-            }
-            </XSchemaConsumer>
-        )}
+         <InstanceNodeList nodeListQuery={props.nodeListQuery} nodeId={props.nodeName}/>
      </TreeItem>
     )
 }
 
 function InstanceNode(props) {
-    const descendantNodeFields = xschema[props.__typename].fields.filter(field => field.gql.connectionType == "oneToManyConnection")
-
+    const descendantNodeFields = xschema[props.__typename].fields.filter(field => field.gqlType.connectionType == "oneToManyConnection")
+    console.log("Instance node desc", descendantNodeFields)
+    console.log("Instance node props", props)
     const handleSelect = () => {
         console.log("Setting selected...", props)
         props.setSelectedNode(props.id, props.__typename)
@@ -84,7 +89,7 @@ function InstanceNode(props) {
                     <LabelNode 
                       
                     nodeName={_.upperFirst(_.camelCase(field.name)).slice(0, -1)}
-                    nodeListQuery={field.gql.query(props.id)}
+                    nodeListQuery={field.gqlType.query(props.id)}
                     setNodeListQuery={setNodeListQuery}
                     setSelectedNode={setSelectedNode}
                     setParentNode={setParentNode} 

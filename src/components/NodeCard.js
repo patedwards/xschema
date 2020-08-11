@@ -61,12 +61,12 @@ function ParentLink(props) {
   console.log("Parenting", props)
   function handleParentClick() {
     props.setSelectedNode(props.parentNode.id, props.parentNode.name);
-    props.setNodeListQuery(props.field.gql.query(props.parentNode.id))
+    props.setNodeListQuery(props.field.gqlType.query(props.parentNode.id))
   }
 
   return (
     <Button onClick={handleParentClick}>
-      Text
+      {props.field.name}
     </Button>
   )
 }
@@ -131,7 +131,7 @@ export default function NodeCard(props) {
       <CardContent>
         <Typography variant="h5" component="h2"> {props.header} </Typography>
         {
-          nodeSchema.fields.filter(field => field.gql == "String!")
+          nodeSchema.fields.filter(field => field.gqlType.type == "String!")
             .map((field) => <TextField 
               id="outlined-basic" 
               label={field.name} 
@@ -141,7 +141,7 @@ export default function NodeCard(props) {
             />)
         }
         {
-          nodeSchema.fields.filter(field => field.gql.connectionType == "oneToOneConnection")
+          nodeSchema.fields.filter(field => field.gqlType.connectionType == "oneToOneConnection")
             .map((field) => 
               <XSchemaConsumer>{
                 ({setSelectedNode, parentNode, setNodeListQuery}) => <ParentLink 

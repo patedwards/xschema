@@ -324,6 +324,20 @@ export const createComment = /* GraphQL */ `
         updatedAt
       }
       content
+      reply {
+        id
+        commentID
+        comment {
+          id
+          postID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -355,6 +369,20 @@ export const updateComment = /* GraphQL */ `
         updatedAt
       }
       content
+      reply {
+        id
+        commentID
+        comment {
+          id
+          postID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -386,6 +414,20 @@ export const deleteComment = /* GraphQL */ `
         updatedAt
       }
       content
+      reply {
+        id
+        commentID
+        comment {
+          id
+          postID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -411,6 +453,13 @@ export const createReply = /* GraphQL */ `
           updatedAt
         }
         content
+        reply {
+          id
+          commentID
+          content
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -440,6 +489,13 @@ export const updateReply = /* GraphQL */ `
           updatedAt
         }
         content
+        reply {
+          id
+          commentID
+          content
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -469,6 +525,13 @@ export const deleteReply = /* GraphQL */ `
           updatedAt
         }
         content
+        reply {
+          id
+          commentID
+          content
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }

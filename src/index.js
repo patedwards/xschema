@@ -28,7 +28,7 @@ const link = ApolloLink.from([
 // const link = new HttpLink({ uri: 'https://localhost:4000/' })
 
 const client = new ApolloClient({
-  link,
+  //link,
   cache: new InMemoryCache(),
   connectToDevTools: true,
 });

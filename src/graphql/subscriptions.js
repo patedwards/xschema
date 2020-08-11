@@ -294,6 +294,20 @@ export const onCreateComment = /* GraphQL */ `
         updatedAt
       }
       content
+      reply {
+        id
+        commentID
+        comment {
+          id
+          postID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -322,6 +336,20 @@ export const onUpdateComment = /* GraphQL */ `
         updatedAt
       }
       content
+      reply {
+        id
+        commentID
+        comment {
+          id
+          postID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -350,6 +378,20 @@ export const onDeleteComment = /* GraphQL */ `
         updatedAt
       }
       content
+      reply {
+        id
+        commentID
+        comment {
+          id
+          postID
+          content
+          createdAt
+          updatedAt
+        }
+        content
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -372,6 +414,13 @@ export const onCreateReply = /* GraphQL */ `
           updatedAt
         }
         content
+        reply {
+          id
+          commentID
+          content
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -398,6 +447,13 @@ export const onUpdateReply = /* GraphQL */ `
           updatedAt
         }
         content
+        reply {
+          id
+          commentID
+          content
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -424,6 +480,13 @@ export const onDeleteReply = /* GraphQL */ `
           updatedAt
         }
         content
+        reply {
+          id
+          commentID
+          content
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
