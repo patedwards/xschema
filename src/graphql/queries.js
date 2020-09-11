@@ -191,18 +191,15 @@ export const getComment = /* GraphQL */ `
       }
       content
       reply {
-        id
-        commentID
-        comment {
+        items {
           id
-          postID
+          commentID
           content
+          nextToken
           createdAt
           updatedAt
         }
-        content
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -229,11 +226,7 @@ export const listComments = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
@@ -260,16 +253,13 @@ export const getReply = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
       }
       content
+      nextToken
       createdAt
       updatedAt
     }
@@ -293,6 +283,7 @@ export const listReplys = /* GraphQL */ `
           updatedAt
         }
         content
+        nextToken
         createdAt
         updatedAt
       }

@@ -9,7 +9,9 @@ import { CreateNode } from '../utils/nodeCreation';
 export default function NodeList(props) {
   console.log("NodeList", props)
   const { loading, error, data } = useQuery(...props.nodeListQuery);
-  console.log("nodelist", error)  
+  console.log("NodeList", data)
+  const nodes = data == null ? null : Object.values(data).map(foundValue => foundValue.items || foundValue)[0]
+  console.log("nodelist", error, nodes, props)  
 
   return (
         <Grid container justify="center" spacing={3}>
@@ -23,8 +25,7 @@ export default function NodeList(props) {
               "'Loading...'" :
               error ? 
               `Error! ${error.message}` :
-                Object.values(data).map(foundValue =>
-                    foundValue.items.map((value) => (
+                nodes.map((value) => (
                         <Grid key={value.id} item>
                             <XSchemaConsumer>{
                                 ({selectedNode, setSelectedNode}) =>
@@ -32,7 +33,6 @@ export default function NodeList(props) {
                                     header={"placeholder"} 
                                     nodeContents={value} 
                                     nodeName={value.__typename} 
-                                    
                                     selectedNode={selectedNode}
                                     setSelectedNode={setSelectedNode}
                                 />
@@ -40,7 +40,7 @@ export default function NodeList(props) {
                             </XSchemaConsumer>
                         </Grid>
                     ))
-                )}
+                }
         </Grid>
     )
 }

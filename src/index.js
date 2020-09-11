@@ -12,6 +12,8 @@ import { createHttpLink } from 'apollo-link-http';
 import { HttpLink } from 'apollo-link-http'
 import { XSchemaProvider } from './context/XSchema.context';
 import { typeDefs } from './localState/extendedTypes';
+import { xschema } from './graphql/xschema';
+
 
 const url = aws_config.aws_appsync_graphqlEndpoint
 const region = aws_config.aws_appsync_region
@@ -25,9 +27,10 @@ const link = ApolloLink.from([
    createHttpLink({ uri: url })
 ]);
 
-// const link = new HttpLink({ uri: 'https://localhost:4000/' })
+const linkLocal = new HttpLink({ uri: 'http://localhost:4000/' })
 
 const client = new ApolloClient({
+  uri: "http://localhost:4000/",
   //link,
   cache: new InMemoryCache(),
   connectToDevTools: true,

@@ -27,12 +27,13 @@ type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
   postID: ID!
   post: Post @connection(fields: ["postID"])
   content: String!
-  reply: [Reply] 
+  replys: [Reply] @connection(keyName: "byComment", fields: ["id"])
 }
 
-type Reply @model {
+type Reply @model @key(name: "byComment", fields: ["commentID"]) {
   id: ID!
   commentID: ID!
-  comment: Comment
+  comment: Comment @connection(fields: ["commentID"])
   content: String
+  nextToken: String
 }

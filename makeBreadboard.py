@@ -1,6 +1,6 @@
 import json
 
-with open("./src/graphql/schema.graphql") as fp:
+with open("./amplify/backend/api/xschema/schema.graphql") as fp:
     lines = fp.readlines()
 
 queries = "import {"
@@ -8,10 +8,14 @@ mutations = "import {"
 
 body = "{"
 
+server_typedefs = "const typeDefs = gql`"
+
 for line in lines:
     line = line.replace("\n", "")
     if "type" in line:
         nodeName = line.split(" ")[1]
+        at_index = line.index("@") if "@" in line else -1
+        server_typedefs += line[:at_index] + "{\n"
         queries += f"list{nodeName}s, "
         mutations += f"update{nodeName}, create{nodeName}, delete{nodeName}, "
         body += "\n".join([
@@ -24,6 +28,8 @@ for line in lines:
         ])
     elif ":" in line:
         line = line.replace(" ","")
+        at_index = line.index("@") if "@" in line else -1
+        server_typedefs += line[:at_index] + "\n"        
         if "@connection" in line:
             field_by_type, connection_info = line.split("@connection")
             connection_info = connection_info[1:-1] # remove the ( and )
@@ -42,6 +48,8 @@ for line in lines:
                 field_data +=  "filter: {"
                 field_data += f"{camel_node_name}ID: "
                 field_data += "{eq: id}}}}]"
+                if "listPostss" in field_data:
+                    import pdb; pdb.set_trace()
             else:
                 upper_field_name = name[0].upper() + name[1:]
                 camel_node_name = nodeName[0].lower() + nodeName[1:]
@@ -64,7 +72,9 @@ for line in lines:
         body += "\n    " + field_data 
     elif line == "}":
         body += "\n]\n},\n"
+        server_typedefs += "}\n"
 body += "}"
+server_typedefs += "`;\n"
 
 queries += "} from '../graphql/queries';\n"
 mutations += "} from '../graphql/mutations';\n"
@@ -79,3 +89,7 @@ with open('./src/graphql/xschema.js', "w") as fp:
     fp.write("import { gql } from 'apollo-boost'\n\n")
     fp.write("export const xschema = ")
     fp.write(body)
+
+server_head = "const { ApolloServer, gql } = require('apollo-server');"
+
+with open('../x-schema-server/index.js', "w") as fp:

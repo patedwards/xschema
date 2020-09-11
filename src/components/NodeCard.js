@@ -74,7 +74,7 @@ function ParentLink(props) {
 export default function NodeCard(props) {
   console.log("Node card", props)
   const classes = useStyles();
-  const nodeName = props.nodeName; 
+  const nodeName = props.selectedNode.name; 
   const nodeSchema = xschema[nodeName];
 
  
@@ -101,19 +101,32 @@ export default function NodeCard(props) {
         fieldName: value
       }
     )
-    const newData = {id: state.id}; // TODO: make this nicer
+    const newData = state; // TODO: make this nicer
     newData[fieldName] = value
 
-    console.log("handling update for", state);
+    console.log("handling update for", state, newData);
 
-    updateMutate(
+    const aws = false
+    if (aws) {
+      updateMutate(
         {
             variables: {
                 input: 
                     newData
             }
         }
-    )
+      )
+    }
+    else {
+      updateMutate(
+        {
+            variables: {
+              ...newData
+            }
+        }
+      )
+    }
+    
   }
   
 

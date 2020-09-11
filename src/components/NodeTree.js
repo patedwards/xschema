@@ -9,6 +9,7 @@ import { useQuery } from '@apollo/client';
 import _ from 'lodash';
 import { xschema } from '../graphql/xschema';
 
+const LOCAL = true;
 
 const useStyles = makeStyles({
   root: {
@@ -18,27 +19,17 @@ const useStyles = makeStyles({
   },
 });
 
-/*
-function GenericNode(props) {
-
-    // start-auto-boiler-plate
-    const { loading, error, data } = useQuery(...props.nodeListQuery)
-    if (loading) return 'Loading...';
-    if (error) return `Error! ${error.message}`;    
-    // end-auto-boiler-plate
-
-    return data
-}
-*/
-
 function InstanceNodeList(props) {
+    console.log("Instance node list", props)
     /* start-auto-boiler-plate*/
     const { loading, error, data } = useQuery(...props.nodeListQuery)
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`; 
     /* end-auto-boiler-plate*/  
+    console.log("Instance node data", data)
+    const instances = data["list" + props.nodeName + "s"].items || data["list" + props.nodeName + "s"]
+    console.log("Instance node Instances", instances)
 
-    const instances = data["list" + props.nodeName + "s"].items
     return (instances.map(instance => 
         <XSchemaConsumer>{({ setSelectedNode, setNodeListQuery }) => 
             <InstanceNode 
@@ -65,7 +56,7 @@ function LabelNode(props) {
 
     return (
      <TreeItem nodeId={props.nodeName} label={props.nodeName} onClick={handleSelect}>
-         <InstanceNodeList nodeListQuery={props.nodeListQuery} nodeId={props.nodeName}/>
+         <InstanceNodeList nodeListQuery={props.nodeListQuery} nodeName={props.nodeName}/>
      </TreeItem>
     )
 }

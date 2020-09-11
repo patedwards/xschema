@@ -295,18 +295,15 @@ export const onCreateComment = /* GraphQL */ `
       }
       content
       reply {
-        id
-        commentID
-        comment {
+        items {
           id
-          postID
+          commentID
           content
+          nextToken
           createdAt
           updatedAt
         }
-        content
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -337,18 +334,15 @@ export const onUpdateComment = /* GraphQL */ `
       }
       content
       reply {
-        id
-        commentID
-        comment {
+        items {
           id
-          postID
+          commentID
           content
+          nextToken
           createdAt
           updatedAt
         }
-        content
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -379,18 +373,15 @@ export const onDeleteComment = /* GraphQL */ `
       }
       content
       reply {
-        id
-        commentID
-        comment {
+        items {
           id
-          postID
+          commentID
           content
+          nextToken
           createdAt
           updatedAt
         }
-        content
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -415,16 +406,13 @@ export const onCreateReply = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
       }
       content
+      nextToken
       createdAt
       updatedAt
     }
@@ -448,16 +436,13 @@ export const onUpdateReply = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
       }
       content
+      nextToken
       createdAt
       updatedAt
     }
@@ -481,16 +466,13 @@ export const onDeleteReply = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
       }
       content
+      nextToken
       createdAt
       updatedAt
     }

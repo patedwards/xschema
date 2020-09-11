@@ -325,18 +325,15 @@ export const createComment = /* GraphQL */ `
       }
       content
       reply {
-        id
-        commentID
-        comment {
+        items {
           id
-          postID
+          commentID
           content
+          nextToken
           createdAt
           updatedAt
         }
-        content
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -370,18 +367,15 @@ export const updateComment = /* GraphQL */ `
       }
       content
       reply {
-        id
-        commentID
-        comment {
+        items {
           id
-          postID
+          commentID
           content
+          nextToken
           createdAt
           updatedAt
         }
-        content
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -415,18 +409,15 @@ export const deleteComment = /* GraphQL */ `
       }
       content
       reply {
-        id
-        commentID
-        comment {
+        items {
           id
-          postID
+          commentID
           content
+          nextToken
           createdAt
           updatedAt
         }
-        content
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -454,16 +445,13 @@ export const createReply = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
       }
       content
+      nextToken
       createdAt
       updatedAt
     }
@@ -490,16 +478,13 @@ export const updateReply = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
       }
       content
+      nextToken
       createdAt
       updatedAt
     }
@@ -526,16 +511,13 @@ export const deleteReply = /* GraphQL */ `
         }
         content
         reply {
-          id
-          commentID
-          content
-          createdAt
-          updatedAt
+          nextToken
         }
         createdAt
         updatedAt
       }
       content
+      nextToken
       createdAt
       updatedAt
     }
